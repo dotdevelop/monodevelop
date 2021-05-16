@@ -1,18 +1,26 @@
 **PLEASE NOTE!**
 
-This is an effort to get monodevelop open sourced again.
+This is an effort to get MonoDevelop open sourced again.
 
-**DotDevelop** will hopefully a full-featured integrated development environment (IDE) for .dotnet using Gtk.
+**DotDevelop** will hopefully be a full-featured integrated development environment (IDE) for .NET using GTK.
 
 **Current Status**
 
-This branch is based on the last commit on 29 Jan 2020 (https://github.com/mono/monodevelop/commit/96b42aa0741af179a8e501f426b6ff5451c27264)
+This fork is based on the last commit on 29 Jan 2020 (https://github.com/mono/monodevelop/commit/96b42aa0741af179a8e501f426b6ff5451c27264).
 
-It was refactored to compile / run again on linux. Other platforms will follow.
+It was refactored to compile / run again on Linux. Other platforms will follow.
 
 **Contributors**
 
-to hack around, get a compiling copy as follows:
+To hack around, use a Ubuntu 20.04 machine and follow the steps below,
+
+1. Acquire all dependencies,
+
+```
+sudo apt install intltool fsharp gtk-sharp2
+```
+
+2. Check out the code and compile,
 
 ```
 git clone -b main https://github.com/dotdevelop/dotdevelop.git
@@ -25,7 +33,10 @@ make
 
 ```
 
-have a look here: http://source.monodevelop.com/
+> Take a look at [the CI manifest](https://github.com/dotdevelop/dotdevelop/blob/main/.github/workflows/monodevelop.yml) in case the latest steps differ from above.
+>
+> Other Linux distributions/versions require different ways to acquire dependencies. Open [a new issue
+](https://github.com/dotdevelop/dotdevelop/issues) and point out which Linux distribution/version you use, so others might help.
 
 # (outdated) ReadMe from MonoDevelop:
 
