@@ -10,6 +10,7 @@ on:
     branches:
       - '*'
       
+  # Allow manual trigger of workflow
   workflow_dispatch:
 
 jobs:
