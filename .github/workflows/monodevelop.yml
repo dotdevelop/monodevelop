@@ -9,18 +9,58 @@ on:
   pull_request:
     branches:
       - '*'
+      
+  workflow_dispatch:
 
 jobs:
-  linux:
-
-    runs-on: ubuntu-20.04
-
+  ubuntu2004:  
+    runs-on: ubuntu-latest
+    container:
+    # This is the cached docker image SHA256:aba80b77...40417fe dated 17/06/2021
+      image: "ubuntu:20.04"
     steps:
-    - uses: actions/checkout@v2
     - name: Dependencies
       run: |
-        sudo apt install intltool fsharp gtk-sharp2
-    - name: Configure and build
+        # Install extra ubuntu packages
+        apt-get update
+        apt-get install -y sudo        
+        sudo apt-get update
+        # Install dotnet-sdk packages
+        sudo apt-get install -y wget
+        wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+        sudo dpkg -i packages-microsoft-prod.deb
+        sudo apt-get install -y apt-transport-https
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk-3.1
+        # Install mono and msbuild
+        sudo apt-get install -y gnupg ca-certificates
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+        # Reference mono and msbuild from stable repo for versions 6.12.0.122 (mono) and 16.6.0.15201 (msbuild)
+        echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+        # Reference mono and msbuild from preview repo for versions 6.12.0.147 (mono) and 16.10.1 (msbuild)
+        # echo "deb https://download.mono-project.com/repo/ubuntu preview-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-preview.list
+        sudo apt-get update
+        # Install mono-complete and ca-certificates-mono
+        sudo apt-get install -y mono-complete ca-certificates-mono
+        # Synchronise Mono SSL certs
+        cert-sync /etc/ssl/certs/ca-certificates.crt
+        # Install extra packages required for dotdevelop build
+        sudo apt-get install -y sed git build-essential intltool fsharp gtk-sharp2
+        sudo apt-get install -y software-properties-common
+        sudo apt-get update
+    - name: Verify OS and tools versions
+      run: |
+        uname -a
+        git --version
+        make --version
+        mono -V
+        msbuild -version
+        dotnet --info
+    # Checkout, configure and build
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Checkout configure and build
       run: |
         ./configure --profile=gnome
         make
