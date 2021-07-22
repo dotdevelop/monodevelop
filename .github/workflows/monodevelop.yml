@@ -36,9 +36,9 @@ jobs:
         sudo apt-get install -y gnupg ca-certificates
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
         # Reference mono and msbuild from stable repo for versions 6.12.0.122 (mono) and 16.6.0.15201 (msbuild)
-        # echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+        echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
         # Reference mono and msbuild from preview repo for versions 6.12.0.147 (mono) and 16.10.1 (msbuild)
-        echo "deb https://download.mono-project.com/repo/ubuntu preview-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-preview.list
+        # echo "deb https://download.mono-project.com/repo/ubuntu preview-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-preview.list
         sudo apt-get update
         # Install mono-complete and ca-certificates-mono
         sudo apt-get install -y mono-complete ca-certificates-mono
